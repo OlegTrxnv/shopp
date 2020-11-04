@@ -1,8 +1,9 @@
 {
   "name": "shopp",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
