@@ -15,6 +15,7 @@ export const listProducts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_LIST_FAIL,
+      // custom error message from backend  || generic error message
       payload: error.response?.data.message || error.message,
     });
   }
