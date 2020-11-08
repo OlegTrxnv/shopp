@@ -11,7 +11,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const products = await Product.find({});
     // res.status(401);
-    // throw new Error("Unauthorized.Test only.");
+    // throw new Error("Unauthorized. Test only.");
     res.json(products);
   })
 );
@@ -23,7 +23,8 @@ router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
-
+    // res.status(401);
+    // throw new Error("Unauthorized. Test only.");
     if (product) {
       res.json(product);
     } else {
