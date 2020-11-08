@@ -4,6 +4,8 @@ import { Col, Row } from "react-bootstrap";
 
 import Product from "../components/Product";
 import { listProducts } from "../actions/productActions";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 const HomeScreen = () => {
   // call listProducts and fill up state with useDispatch hook
@@ -13,7 +15,7 @@ const HomeScreen = () => {
   }, [dispatch]);
 
   // useSelector hook to get productList from the redux store's state
-  const { loading, products, error } = useSelector(
+  const { products, loading, error } = useSelector(
     (state) => state.productList
   );
 
@@ -21,9 +23,9 @@ const HomeScreen = () => {
     <>
       <h1>Latest products</h1>
       {loading ? (
-        <h2>Loading...</h2>
+        <Loader />
       ) : error ? (
-        <h3>{error}</h3>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
           {products.map((product) => (

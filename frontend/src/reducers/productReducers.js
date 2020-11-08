@@ -7,11 +7,11 @@ import {
 export const productListReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
-      return { loading: true, products: [] };
+      return { products: [], loading: true };
     case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload };
+      return { products: action.payload, loading: false };
     case PRODUCT_LIST_FAIL:
-      return { loading: false, error: action.payload };
+      return { error: action.payload, loading: false };
     default:
       return state;
   }
