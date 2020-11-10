@@ -28,6 +28,10 @@ const ProductScreen = ({ match, history }) => {
     (state) => state.productDetails
   );
 
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
   return (
     <>
       <Link to="/" className="btn btn-light my-3">
@@ -97,6 +101,7 @@ const ProductScreen = ({ match, history }) => {
                 )}
                 <ListGroup.Item>
                   <Button
+                    onClick={addToCartHandler}
                     type="button"
                     disabled={product.countInStock === 0}
                     block
