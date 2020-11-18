@@ -21,3 +21,9 @@ select.form-control {
   margin: 0.75rem;
   padding: 0.5rem;
 }
+
+.badge {
+  padding: 3px 5px;
+  vertical-align: top;
+  margin-left: -21px;
+}
