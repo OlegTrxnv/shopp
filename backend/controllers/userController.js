@@ -34,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (emailInUse) {
     res.status(400);
-    throw new Error("This email address is already registered");
+    throw new Error("This email address is already being used");
   }
 
   const user = await User.create({
