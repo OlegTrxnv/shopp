@@ -6,8 +6,12 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducers";
 import { cartReducer } from "./reducers/cartReducers";
-import { userLoginReducer } from "./reducers/userReducers";
-import { userRegisterReducer } from "./reducers/userReducers";
+import {
+  userDetailsReducer,
+  userLoginReducer,
+  userRegisterReducer,
+  userUpdateProfileReducer,
+} from "./reducers/userReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -15,6 +19,8 @@ const reducer = combineReducers({
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
@@ -30,10 +36,15 @@ const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
 
+const composeEnhancers = composeWithDevTools({
+  trace: true,
+  traceLimit: 25,
+});
+
 const store = createStore(
   reducer,
   initialState,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 export default store;

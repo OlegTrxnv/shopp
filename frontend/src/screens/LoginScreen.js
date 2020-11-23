@@ -14,9 +14,12 @@ const LoginScreen = ({ location, history }) => {
 
   const { userInfo, loading, error } = useSelector((state) => state.userLogin);
 
-  const redirectTo = location.search?.split("=")[1] || "/";
+  // If user comes from CartScreen the URL will be: /login?redirect=shipping, so redirectTo = "shipping"
+  // and from any other route redirectTo = "/"
+  const redirectTo = location.search?.split("=")[1] || "/"; // split query string by "=" and get array at [1]
 
   useEffect(() => {
+    // redirect user to shipping if he came from CartScreen otherwise to home page
     if (userInfo) {
       history.push(redirectTo);
     }
@@ -61,9 +64,7 @@ const LoginScreen = ({ location, history }) => {
       <Row className="py-3">
         <Col>
           New Customer?{" "}
-          <Link
-            to={redirectTo ? `/register?redirect=${redirectTo}` : "/register"}
-          >
+          <Link to={`/register?redirect=${redirectTo}` || "/register"}>
             Register
           </Link>
         </Col>

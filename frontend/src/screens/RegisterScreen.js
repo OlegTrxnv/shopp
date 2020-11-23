@@ -91,7 +91,7 @@ const RegisterScreen = ({ location, history }) => {
       <Row className="py-3">
         <Col>
           Have an account?{" "}
-          <Link to={redirectTo ? `/login?redirect=${redirectTo}` : "/login"}>
+          <Link to={`/login?redirect=${redirectTo}` || "/login"}>
             Login instead
           </Link>
         </Col>
