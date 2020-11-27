@@ -7,6 +7,11 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { saveShippingAddress } from "../actions/cartActions";
 
 const ShippingScreen = ({ history }) => {
+  const { userInfo } = useSelector((state) => state.userLogin);
+  if (!userInfo) {
+    history.push("/login");
+  }
+
   const { shippingAddress } = useSelector((state) => state.cart);
 
   const [address, setAddress] = useState(shippingAddress.address ?? "");
