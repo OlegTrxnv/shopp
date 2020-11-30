@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button, Col, Form } from "react-bootstrap";
 
 import FormContainer from "../components/FormContainer";
@@ -7,18 +7,6 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethod } from "../actions/cartActions";
 
 const PaymentScreen = ({ history }) => {
-  const { userInfo } = useSelector((state) => state.userLogin);
-  if (!userInfo) {
-    history.push("/login");
-  }
-
-  const { address, city, postalCode, country } = useSelector(
-    (state) => state.cart.shippingAddress
-  );
-  if (!address || !city || !postalCode || !country) {
-    history.push("/shipping");
-  }
-
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
   const dispatch = useDispatch();
