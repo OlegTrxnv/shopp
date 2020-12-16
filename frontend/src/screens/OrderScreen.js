@@ -8,7 +8,6 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getOrderDetails, payOrder } from "../actions/orderActions";
 import { ORDER_PAY_RESET } from "../constants/orderConstants";
-import { CART_CLEAR } from "../constants/cartConstants";
 
 const OrderScreen = ({ match }) => {
   const [sdkReady, setSdkReady] = useState(false);
@@ -35,7 +34,7 @@ const OrderScreen = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!order || order._id !== orderId || successPay) {
+    if (!order.orderItems.length || order._id !== orderId || successPay) {
       dispatch({ type: ORDER_PAY_RESET }); // reset to stop loop after successful payment
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
@@ -45,7 +44,6 @@ const OrderScreen = ({ match }) => {
 
   const onSuccessPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
-    dispatch({ type: CART_CLEAR });
   };
 
   return loading ? (

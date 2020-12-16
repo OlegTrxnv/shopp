@@ -1,6 +1,7 @@
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
+  USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -8,6 +9,7 @@ import {
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
+  USER_REGISTER_RESET,
   USER_REGISTER_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
@@ -38,7 +40,7 @@ export const userRegisterReducer = (state = {}, action) => {
       return { userInfo: action.payload, loading: false };
     case USER_REGISTER_FAIL:
       return { error: action.payload, loading: false };
-    case USER_LOGOUT:
+    case USER_REGISTER_RESET:
       return {};
     default:
       return state;
@@ -53,8 +55,8 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
       return { user: action.payload, loading: false };
     case USER_DETAILS_FAIL:
       return { error: action.payload, loading: false };
-    case USER_LOGOUT:
-      return {};
+    case USER_DETAILS_RESET:
+      return { user: {} };
     default:
       return state;
   }

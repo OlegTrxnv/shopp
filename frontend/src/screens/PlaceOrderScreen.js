@@ -5,6 +5,7 @@ import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../actions/orderActions";
+import { CART_CLEAR } from "../constants/cartConstants";
 
 const PlaceOrderScreen = ({ history }) => {
   const { paymentMethod, cartItems } = useSelector((state) => state.cart);
@@ -30,11 +31,11 @@ const PlaceOrderScreen = ({ history }) => {
   );
   const shippingPrice = itemsPrice > 100 || !cartItems.length ? 0 : 4.99;
   const taxPrice = +(itemsPrice * 0.075).toFixed(2);
-  const totalPrice = itemsPrice + taxPrice + shippingPrice;
+  const totalPrice = +(itemsPrice + taxPrice + shippingPrice).toFixed(2);
 
   const dispatch = useDispatch();
-  const placeOrderHandler = (e) => {
-    e.preventDefault();
+
+  const placeOrderHandler = () => {
     dispatch(
       createOrder({
         orderItems: cartItems,
@@ -46,6 +47,7 @@ const PlaceOrderScreen = ({ history }) => {
         totalPrice,
       })
     );
+    dispatch({ type: CART_CLEAR });
   };
 
   const { order, success, error } = useSelector((state) => state.orderCreate);

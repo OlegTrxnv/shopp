@@ -1,7 +1,14 @@
 import axios from "axios";
+import { CART_RESET } from "../constants/cartConstants";
+import {
+  ORDER_CREATE_RESET,
+  ORDER_DETAILS_RESET,
+  ORDER_LIST_MY_RESET,
+} from "../constants/orderConstants";
 import {
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
+  USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -9,6 +16,7 @@ import {
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
+  USER_REGISTER_RESET,
   USER_REGISTER_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
@@ -157,5 +165,11 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("cartItems");
   localStorage.removeItem("shippingAddress");
   localStorage.removeItem("paymentMethod");
+  dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_REGISTER_RESET });
+  dispatch({ type: CART_RESET });
+  dispatch({ type: ORDER_CREATE_RESET });
+  dispatch({ type: ORDER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
 };

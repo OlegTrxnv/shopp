@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler"; // error handler
 import Order from "../models/orderModel.js";
 
 // @desc    Create new order
-// @route   POST /api/products
+// @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
@@ -15,7 +15,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     totalPrice,
   } = req.body;
 
-  if (orderItems && !orderItems.length) {
+  if (!orderItems?.length) {
     res.status(400);
     throw new Error("No order items");
   } else {
@@ -52,7 +52,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get update order to "paid"
-// @route   GET /api/orders/:id/pay
+// @route   PUT /api/orders/:id/pay
 // @access  Private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
@@ -75,4 +75,12 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems, getOrderById, updateOrderToPaid };
+// @desc    Get logged in user's orders
+// @route   GET /api/orders/myorders
+// @access  Private
+const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.json(orders);
+});
+
+export { addOrderItems, getMyOrders, getOrderById, updateOrderToPaid };
