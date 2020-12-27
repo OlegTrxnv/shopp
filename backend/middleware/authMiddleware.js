@@ -30,4 +30,13 @@ const protectRoute = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { protectRoute };
+const adminRoute = (req, res, next) => {
+  if (req.user?.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Admin only access");
+  }
+};
+
+export { adminRoute, protectRoute };

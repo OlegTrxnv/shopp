@@ -64,9 +64,7 @@ const OrderScreen = ({ match }) => {
                 {order.shippingAddress.postalCode},{" "}
                 {order.shippingAddress.country}
               </p>
-              <p>
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
-              </p>
+              <p>{order.user.email}</p>
               {order.isDelivered ? (
                 <Message variant="success">
                   Delivered on {order.deliveredAt}

@@ -26,23 +26,25 @@ const ProfileScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if user is not logged in, go to login page
+    // if user is logged in then pull name and email to show current profile fields
     if (!userInfo) {
       history.push("/login");
-      // else pull name and email to show current profile fields
     } else {
-      dispatch(listMyOrders());
-      // pull either from api/users/profile
-      if (!user || !user.name || success) {
-        dispatch({ type: USER_UPDATE_PROFILE_RESET });
+      if (!user.name || success) {
+        setTimeout(() => {
+          dispatch({ type: USER_UPDATE_PROFILE_RESET });
+        }, 1000);
         dispatch(getUserDetails("profile"));
-        // or pull from userDetails in state
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
   }, [dispatch, history, success, user, userInfo]);
+
+  useEffect(() => {
+    dispatch(listMyOrders());
+  }, [dispatch]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
