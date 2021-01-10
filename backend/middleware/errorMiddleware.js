@@ -2,7 +2,7 @@ const notFound404 = (req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
   // error.status = 404;
   res.status(404);
-  next(error); // go to next middleware with this error
+  next(error); // go to error handling middleware with this error
 };
 
 const errorHandler = (error, req, res, next) => {

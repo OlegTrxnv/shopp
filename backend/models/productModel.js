@@ -25,19 +25,15 @@ const productSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
     },
     brand: {
       type: String,
-      required: true,
     },
     category: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
-      required: true,
     },
     // reviews is array of review objects (see Schema on top)
     reviews: [reviewSchema],
@@ -48,7 +44,6 @@ const productSchema = mongoose.Schema(
     },
     numReviews: {
       type: Number,
-      required: true,
       default: 0,
     },
     price: {
@@ -58,8 +53,11 @@ const productSchema = mongoose.Schema(
     },
     countInStock: {
       type: Number,
-      required: true,
       default: 0,
+    },
+    isArchived: {
+      type: Boolean,
+      default: false,
     },
   },
   {

@@ -20,6 +20,7 @@ const UserEditScreen = ({ history, match }) => {
     loading: loadingUpdate,
     error: errorUpdate,
   } = useSelector((state) => state.userUpdate);
+
   const userId = match.params.id;
   const dispatch = useDispatch();
 
@@ -83,7 +84,7 @@ const UserEditScreen = ({ history, match }) => {
                 onChange={(e) => setEmail(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Form.Group controlId="isAdmin">
+            <Form.Group controlId="isadmin">
               <Form.Check
                 type="checkbox"
                 label="is Admin"
