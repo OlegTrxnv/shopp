@@ -105,9 +105,9 @@ const ProductListScreen = ({ history, match }) => {
             {products.map((product) => (
               <tr key={product._id}>
                 <td>{product._id}</td>
-                <Link to={`/product/${product._id}`}>
-                  <td>{product.name}</td>
-                </Link>
+                <td>
+                  <Link to={`/product/${product._id}`}>{product.name}</Link>
+                </td>
                 <td>${product.price}</td>
                 <td>{product.countInStock}</td>
                 <td className="text-center">
