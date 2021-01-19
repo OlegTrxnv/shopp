@@ -48,7 +48,7 @@ const RegisterScreen = ({ location, history }) => {
       {loading && <Loader />}
       <Form onSubmit={onSubmitHandler}>
         <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>Full name</Form.Label>
           <Form.Control
             type="name"
             placeholder="Enter name"
@@ -71,6 +71,7 @@ const RegisterScreen = ({ location, history }) => {
             type="password"
             placeholder="Enter password"
             value={password}
+            autoComplete="new-password"
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>

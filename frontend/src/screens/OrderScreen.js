@@ -3,11 +3,11 @@ import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import { getOrderDetails, payOrder, shipOrder } from "../actions/orderActions";
+import { ORDER_PAY_RESET, ORDER_SHIP_RESET } from "../constants/orderConstants";
 
 const OrderScreen = ({ match }) => {
   const [sdkReady, setSdkReady] = useState(false);
@@ -16,6 +16,10 @@ const OrderScreen = ({ match }) => {
   const { loading: loadingPay, success: successPay } = useSelector(
     (state) => state.orderPay
   );
+  const { loading: loadingShip, success: successShip } = useSelector(
+    (state) => state.orderShip
+  );
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const addPayPalScript = async () => {
     const { data: clientId } = await axios.get("/api/config/paypal");
@@ -34,16 +38,26 @@ const OrderScreen = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!order.orderItems.length || order._id !== orderId || successPay) {
+    if (
+      !order.orderItems.length ||
+      order._id !== orderId ||
+      successPay ||
+      successShip
+    ) {
       dispatch({ type: ORDER_PAY_RESET }); // reset to stop loop after successful payment
+      dispatch({ type: ORDER_SHIP_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       window.paypal ? setSdkReady(true) : addPayPalScript();
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, order, orderId, successPay, successShip]);
 
   const onSuccessPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const onShipHandler = () => {
+    dispatch(shipOrder(order));
   };
 
   return loading ? (
@@ -65,12 +79,12 @@ const OrderScreen = ({ match }) => {
                 {order.shippingAddress.country}
               </p>
               <p>{order.user.email}</p>
-              {order.isDelivered ? (
+              {order.isShipped ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  Shipped on {order.shippedAt}
                 </Message>
               ) : (
-                <Message variant="warning">Not Delivered</Message>
+                <Message variant="warning">Not Shipped</Message>
               )}
             </ListGroup.Item>
 
@@ -159,6 +173,23 @@ const OrderScreen = ({ match }) => {
                     />
                   )}
                 </ListGroup.Item>
+              )}
+              {loadingShip ? (
+                <Loader />
+              ) : (
+                userInfo?.isAdmin &&
+                order.isPaid &&
+                !order.isShipped && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={onShipHandler}
+                    >
+                      Mark as shipped
+                    </Button>
+                  </ListGroup.Item>
+                )
               )}
             </ListGroup>
           </Card>
