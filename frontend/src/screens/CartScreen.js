@@ -55,7 +55,7 @@ const CartScreen = ({ match, location, history }) => {
           <Message>
             <Link to="/">Go back</Link>
             <br />
-            <h3>Your cart is currently empty :(</h3>
+            <h3>Your cart is currently empty</h3>
           </Message>
         ) : (
           <ListGroup variant="flush">
@@ -76,6 +76,7 @@ const CartScreen = ({ match, location, history }) => {
                       onChange={(e) =>
                         changeQtyHandler(item.product, e.target.value)
                       }
+                      className="m-sm-1 p-sm-1"
                     >
                       {[...Array(item.countInStock).keys()].map((idx) => (
                         <option key={idx + 1} value={idx + 1}>
@@ -99,31 +100,32 @@ const CartScreen = ({ match, location, history }) => {
           </ListGroup>
         )}
       </Col>
-      <Col md={4}>
-        <Card>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h2>
-                Subtotal $
-                {cartItems
-                  .reduce((acc, item) => acc + item.qty * item.price, 0)
-                  .toFixed(2)}
-              </h2>
-              {cartItems.reduce((acc, item) => acc + item.qty, 0)} item(s)
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Button
-                type="button"
-                className="btn-block"
-                disabled={!cartItems.length}
-                onClick={checkoutHandler}
-              >
-                Checkout
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
-      </Col>
+      {!!cartItems.length && (
+        <Col md={4}>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>
+                  Subtotal $
+                  {cartItems
+                    .reduce((acc, item) => acc + item.qty * item.price, 0)
+                    .toFixed(2)}
+                </h2>
+                {cartItems.reduce((acc, item) => acc + item.qty, 0)} item(s)
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  onClick={checkoutHandler}
+                >
+                  Checkout
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
+      )}
     </Row>
   );
 };

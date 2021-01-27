@@ -18,6 +18,10 @@ import {
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_RESET,
   PRODUCT_DETAILS_RESET,
+  PRODUCT_REVIEW_CREATE_REQUEST,
+  PRODUCT_REVIEW_CREATE_SUCCESS,
+  PRODUCT_REVIEW_CREATE_FAIL,
+  PRODUCT_REVIEW_CREATE_RESET,
 } from "../constants/productConstants";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -90,6 +94,21 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
     case PRODUCT_UPDATE_FAIL:
       return { error: action.payload, loading: false };
     case PRODUCT_UPDATE_RESET:
+      return { product: {} };
+    default:
+      return state;
+  }
+};
+
+export const productReviewCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_REVIEW_CREATE_REQUEST:
+      return { loading: true };
+    case PRODUCT_REVIEW_CREATE_SUCCESS:
+      return { success: true, loading: false };
+    case PRODUCT_REVIEW_CREATE_FAIL:
+      return { error: action.payload, loading: false };
+    case PRODUCT_REVIEW_CREATE_RESET:
       return { product: {} };
     default:
       return state;
