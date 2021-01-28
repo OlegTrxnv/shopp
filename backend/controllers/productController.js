@@ -1,14 +1,34 @@
 import asyncHandler from "express-async-handler"; // error handler
 import Product from "../models/productModel.js";
 
-// @desc    Fetch all products
-// @route   GET /api/products
+// @desc    Fetch all products or search products
+// @route   GET /api/products?searchTerm
 // @access  Public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  // res.status(401);
-  // throw new Error("Unauthorized. Test only.");
+  const nameKeyword = req.query.searchTerm
+    ? {
+        // using RegEx to search for part of words, case-insensitive
+        name: {
+          $regex: req.query.searchTerm,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const brandKeyword = req.query.searchTerm
+    ? {
+        brand: {
+          $regex: req.query.searchTerm,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const products = await Product.find({
+    $or: [{ ...nameKeyword }, { ...brandKeyword }],
+  });
+
   res.json(products);
 });
 
@@ -17,8 +37,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  // res.status(401);
-  // throw new Error("Unauthorized. Test only.");
+
   if (product) {
     res.json(product);
   } else {
@@ -34,6 +53,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
+    s;
     if (product.isArchived) {
       await product.remove();
       res.json({ message: "Product permanently removed" });

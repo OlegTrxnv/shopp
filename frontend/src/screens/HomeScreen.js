@@ -7,12 +7,13 @@ import { listProducts } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const searchTerm = match.params.searchTerm;
   // call listProducts and fill up state with useDispatch hook
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(searchTerm));
+  }, [dispatch, searchTerm]);
 
   // useSelector hook to get productList from the redux store's state
   const { products, loading, error } = useSelector(
@@ -21,7 +22,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h1>Latest products</h1>
+      {!searchTerm && <h1>Latest products</h1>}
       {loading ? (
         <Loader />
       ) : error ? (
