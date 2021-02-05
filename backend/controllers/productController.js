@@ -2,10 +2,13 @@ import asyncHandler from "express-async-handler"; // error handler
 import Product from "../models/productModel.js";
 
 // @desc    Fetch all products or search products
-// @route   GET /api/products?searchTerm
+// @route   GET /api/products?searchTerm&pageSize&pageNumber
 // @access  Public
 
 const getProducts = asyncHandler(async (req, res) => {
+  const pageSize = +req.query.pageSize;
+  const pageNumber = +req.query.pageNumber;
+
   const nameKeyword = req.query.searchTerm
     ? {
         // using RegEx to search for part of words, case-insensitive
@@ -25,11 +28,17 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const products = await Product.find({
+  const count = await Product.countDocuments({
     $or: [{ ...nameKeyword }, { ...brandKeyword }],
   });
 
-  res.json(products);
+  const products = await Product.find({
+    $or: [{ ...nameKeyword }, { ...brandKeyword }],
+  })
+    .limit(pageSize)
+    .skip(pageSize * (pageNumber - 1));
+
+  res.json({ products, pageNumber, pagesTotal: Math.ceil(count / pageSize) });
 });
 
 // @desc    Fetch single product

@@ -21,11 +21,17 @@ import {
 } from "../constants/productConstants";
 
 // list all products or search products
-export const listProducts = (searchTerm = "") => async (dispatch) => {
+export const listProducts = (
+  searchTerm = "",
+  pageSize = "1",
+  pageNumber = "1"
+) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
-    const { data } = await axios.get(`/api/products?searchTerm=${searchTerm}`);
+    const { data } = await axios.get(
+      `/api/products?searchTerm=${searchTerm}&pageSize=${pageSize}&pageNumber=${pageNumber}`
+    );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

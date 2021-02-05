@@ -3,20 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 
 import Product from "../components/Product";
-import { listProducts } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Paginate from "../components/Paginate";
+import { listProducts } from "../actions/productActions";
 
 const HomeScreen = ({ match }) => {
   const searchTerm = match.params.searchTerm;
-  // call listProducts and fill up state with useDispatch hook
+  const pageCurrent = match.params.pageNumber || 1;
+  let pageSize = 3;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listProducts(searchTerm));
-  }, [dispatch, searchTerm]);
+    dispatch(listProducts(searchTerm, pageSize, pageCurrent));
+  }, [dispatch, pageCurrent, pageSize, searchTerm]);
 
   // useSelector hook to get productList from the redux store's state
-  const { products, loading, error } = useSelector(
+  const { products, pageNumber, pagesTotal, loading, error } = useSelector(
     (state) => state.productList
   );
 
@@ -27,16 +30,25 @@ const HomeScreen = ({ match }) => {
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
+      ) : !products.length ? (
+        <h4>No products found</h4>
       ) : (
-        <Row>
-          {products
-            .filter((product) => !product.isArchived)
-            .map((product) => (
-              <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-                <Product product={product} />
-              </Col>
-            ))}
-        </Row>
+        <>
+          <Row>
+            {products
+              .filter((product) => !product.isArchived)
+              .map((product) => (
+                <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
+                  <Product product={product} />
+                </Col>
+              ))}
+          </Row>
+          <Paginate
+            pageNumber={pageNumber}
+            pagesTotal={pagesTotal}
+            searchTerm={searchTerm ? searchTerm : ""}
+          />
+        </>
       )}
     </>
   );
