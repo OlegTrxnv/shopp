@@ -6,6 +6,7 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 import { listProducts } from "../actions/productActions";
 
 const HomeScreen = ({ match }) => {
@@ -25,7 +26,7 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
-      {!searchTerm && <h1>Latest products</h1>}
+      {!searchTerm && <ProductCarousel />}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -34,7 +35,7 @@ const HomeScreen = ({ match }) => {
         <h4>No products found</h4>
       ) : (
         <>
-          <Row>
+          <Row className="justify-content-center">
             {products
               .filter((product) => !product.isArchived)
               .map((product) => (

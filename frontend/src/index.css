@@ -22,3 +22,45 @@ h3 {
   vertical-align: top;
   margin-left: -21px;
 }
+
+/* carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 0;
+}
+
+.carousel-caption h3{
+  color: #fff;
+}
+
+.carousel-caption p {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+}
+
+.carousel img {
+  height: 275px;
+  padding: 30px;
+  margin: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 30%;
+}
+
+.carousel a {
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .carousel-caption h3, p {
+    font-size: 2.5vw;
+  }
+}

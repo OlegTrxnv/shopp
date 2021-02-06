@@ -20,7 +20,7 @@ import {
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
   // access search query in location ?qty=xxx, into array [?qty, xxx], get element at [1]
-  const qty = Number(location.search.split("=")[1]);
+  const qty = +location.search.split("=")[1];
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -32,7 +32,7 @@ const CartScreen = ({ match, location, history }) => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const changeQtyHandler = (product, qty) => {
-    dispatch(changeQty(product, Number(qty)));
+    dispatch(changeQty(product, +qty));
     history.push("/cart");
   };
 

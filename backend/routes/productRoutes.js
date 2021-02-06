@@ -1,11 +1,12 @@
 import { Router } from "express";
 import {
-  deleteProduct,
   createProduct,
+  createProductReview,
+  deleteProduct,
   getProductById,
   getProducts,
+  getTopProducts,
   updateProduct,
-  createProductReview,
 } from "../controllers/productController.js";
 import { adminRoute, protectRoute } from "../middleware/authMiddleware.js";
 
@@ -17,6 +18,7 @@ router
   .post(protectRoute, adminRoute, createProduct);
 
 router.post("/:id/reviews", protectRoute, createProductReview);
+router.get("/top", getTopProducts);
 
 router
   .route("/:id")

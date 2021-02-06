@@ -35,8 +35,8 @@ const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({
     $or: [{ ...nameKeyword }, { ...brandKeyword }],
   })
-    .limit(pageSize)
-    .skip(pageSize * (pageNumber - 1));
+    .skip(pageSize * (pageNumber - 1))
+    .limit(pageSize);
 
   res.json({ products, pageNumber, pagesTotal: Math.ceil(count / pageSize) });
 });
@@ -171,11 +171,20 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Fetch top rated products
+// @route   GET /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.json(products);
+});
+
 export {
   createProduct,
   createProductReview,
   deleteProduct,
   getProducts,
   getProductById,
+  getTopProducts,
   updateProduct,
 };
