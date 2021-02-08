@@ -1,23 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 
 const SearchBox = ({ history, location }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debounced, setDebounced] = useState(searchTerm);
+
+  const search = useCallback(
+    (term) => {
+      term.trim()
+        ? history.push(`/search/${encodeURIComponent(term)}`)
+        : history.push("/");
+    },
+    [history]
+  );
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebounced(searchTerm);
+    }, 1000);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    search(debounced);
+  }, [debounced, search]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    searchTerm.trim()
-      ? history.push(`/search/${encodeURIComponent(searchTerm)}`)
-      : history.push("/");
+    search(searchTerm);
   };
 
   useEffect(() => {
-    if (
-      !location.pathname.includes("/search") &&
-      !location.pathname.includes("/product")
-    ) {
+    if (location.pathname === "/") {
       setSearchTerm("");
     }
   }, [location]);

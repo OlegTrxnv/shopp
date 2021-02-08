@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "react-bootstrap";
 
@@ -26,7 +27,16 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
-      {!searchTerm && <ProductCarousel />}
+      {!searchTerm ? (
+        <ProductCarousel />
+      ) : (
+        <>
+          <Link to="/" className="btn btn-outline-dark my-3">
+            Go back
+          </Link>
+          <h1 className="text-center">That's what we found for you</h1>
+        </>
+      )}
       {loading ? (
         <Loader />
       ) : error ? (

@@ -53,7 +53,9 @@ const CartScreen = ({ match, location, history }) => {
         <h1>Shopping cart</h1>
         {!cartItems.length ? (
           <Message>
-            <Link to="/">Go back</Link>
+            <Link to="/" className="btn btn-outline-dark my-3">
+              Go back
+            </Link>
             <br />
             <h3>Your cart is currently empty</h3>
           </Message>
