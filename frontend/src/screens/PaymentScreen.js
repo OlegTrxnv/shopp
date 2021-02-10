@@ -7,7 +7,7 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethod } from "../actions/cartActions";
 
 const PaymentScreen = ({ history }) => {
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState("Bank card");
 
   const dispatch = useDispatch();
   const onSubmitHandler = (e) => {
@@ -22,25 +22,24 @@ const PaymentScreen = ({ history }) => {
       <h1>Payment Method</h1>
       <Form onSubmit={onSubmitHandler}>
         <Form.Group>
-          <Form.Label as="legend">Select Method</Form.Label>
+          <Form.Label as="legend">Select method</Form.Label>
           <Col>
             <Form.Check
               type="radio"
-              label="PayPal or Card"
-              id="PayPal"
+              label="Credit or debit card"
+              id="Card"
               name="paymentMethod"
-              value="PayPal"
-              checked={paymentMethod === "PayPal"}
+              value="Bank card"
+              checked={paymentMethod === "Bank card"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
             <Form.Check
               type="radio"
-              label="Stripe"
-              id="Stripe"
+              label="PayPal account"
+              id="PayPal"
               name="paymentMethod"
-              value="Stripe"
-              checked={paymentMethod === "Stripe"}
-              disabled
+              value="PayPal"
+              checked={paymentMethod === "PayPal"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>

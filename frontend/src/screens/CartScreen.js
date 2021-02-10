@@ -57,7 +57,7 @@ const CartScreen = ({ match, location, history }) => {
               Go back
             </Link>
             <br />
-            <h3>Your cart is currently empty</h3>
+            <h3>Your cart is currently empty 😥</h3>
           </Message>
         ) : (
           <ListGroup variant="flush">
