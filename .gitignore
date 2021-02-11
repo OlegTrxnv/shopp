@@ -125,7 +125,7 @@ dist
 /coverage
 
 # production
-/build
+frontend/build
 
 # Stores VSCode workspace settings
 .vscode
