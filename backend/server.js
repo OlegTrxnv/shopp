@@ -35,7 +35,8 @@ const __dirname = path.resolve();
 // create a virtual path prefix "/uploads" to serve files from static path
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// in production all routes not covered above will point to index.html from static build folder
+// in production server will not be started
+// all routes not covered above will point to index.html from static build folder with all front-end code inside
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "frontend/build")));
 

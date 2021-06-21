@@ -78,7 +78,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 // @desc    Create a product
-// @route   POST /api/products
+// @route   PUT /api/products
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
@@ -101,15 +101,8 @@ const createProduct = asyncHandler(async (req, res) => {
 // @route   POST /api/products/:id
 // @access  Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    price,
-    image,
-    brand,
-    category,
-    countInStock,
-    description,
-  } = req.body;
+  const { name, price, image, brand, category, countInStock, description } =
+    req.body;
 
   const product = await Product.findById(req.params.id);
 
